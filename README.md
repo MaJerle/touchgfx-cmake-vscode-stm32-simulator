@@ -10,4 +10,6 @@ Full tutorial and explanation available [on my webiste](http://stm32f4-discovery
 
 ![TouchGFX designer setup](docs/images/touchgfx-designer.png)
 
+![IntelliSense](docs/images/vscode-intellisense.png)
+
 ![Debugging in VSCode](docs/images/vscode-debug.png)
