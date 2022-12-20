@@ -9,31 +9,36 @@ Model::Model() : modelListener(0), sinus_count(1)
 
 void Model::tick()
 {
-    time_t raw_time;
+    static uint32_t cnt = 0;
+    static time_t raw_time = 1671459593;
     struct tm dt;
+
+    ++cnt;
 
     /* Get current time */
 #if defined(SIMULATOR)
-    time(&raw_time);
+    time(&raw_time);        /* Windows time */
+#else  /* SIMULATOR */
+    if (cnt % 60 == 0) {    /* Simple counter increase */
+        ++raw_time;
+    }
+#endif /* !SIMULATOR */
+
     if (raw_time != last_time)
     {
         last_time = raw_time;
-        localtime_s(&dt, &raw_time);
+        dt = *gmtime(&raw_time);        /* Simple gmtime calculation */
 
         /* Notify active presenter */
         modelListener->notifyNewDateTime(&dt);
     }
-#else  /* SIMULATOR */
-    /* Get current RTC from the MCU RTC block */
-#endif /* !SIMULATOR */
 
     /* Temperature data from sensor */
-#if defined(SIMULATOR)
+#if defined(SIMULATOR) || 1
     {
-        static uint32_t cnt = 0;
         double temp;
 
-        if (++cnt % 2 == 0)
+        if (cnt % 4 == 0)
         {
             /* Calculate temperature manually */
             temp = 0;
@@ -45,7 +50,7 @@ void Model::tick()
         }
     }
 #else  /* SIMULATOR */
-    /* Get current RTC from the MCU RTC block */
+    /* Get sensor data on real device */
 #endif /* !SIMULATOR */
 }
 
