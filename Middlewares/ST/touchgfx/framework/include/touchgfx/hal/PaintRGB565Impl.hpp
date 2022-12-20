@@ -19,6 +19,7 @@
 #define TOUCHGFX_PAINTRGB565IMPL_HPP
 
 #include <touchgfx/hal/Paint.hpp>
+#include <touchgfx/hal/PaintImpl.hpp>
 
 namespace touchgfx
 {
