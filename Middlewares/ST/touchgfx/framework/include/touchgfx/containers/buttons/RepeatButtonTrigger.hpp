@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -90,7 +90,7 @@ public:
         return ticksInterval;
     }
 
-    void handleClickEvent(const ClickEvent& event)
+    virtual void handleClickEvent(const ClickEvent& event)
     {
         bool wasPressed = getPressed();
         bool newPressedValue = (event.getType() == ClickEvent::PRESSED);
@@ -114,7 +114,7 @@ public:
         }
     }
 
-    void handleTickEvent()
+    virtual void handleTickEvent()
     {
         AbstractButtonContainer::handleTickEvent();
 

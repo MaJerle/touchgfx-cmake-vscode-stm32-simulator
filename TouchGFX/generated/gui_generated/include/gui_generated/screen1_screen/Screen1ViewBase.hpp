@@ -9,18 +9,19 @@
 #include <gui/screen1_screen/Screen1Presenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/widgets/ScalableImage.hpp>
+#include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/TextAreaWithWildcard.hpp>
 #include <touchgfx/widgets/graph/GraphScroll.hpp>
 #include <touchgfx/widgets/graph/GraphElements.hpp>
-#include <touchgfx/widgets/canvas/PainterRGB888.hpp>
 #include <touchgfx/widgets/graph/GraphLabels.hpp>
+#include <touchgfx/widgets/canvas/PainterRGB888.hpp>
 #include <touchgfx/containers/Slider.hpp>
 
 class Screen1ViewBase : public touchgfx::View<Screen1Presenter>
 {
 public:
     Screen1ViewBase();
-    virtual ~Screen1ViewBase() {}
+    virtual ~Screen1ViewBase();
     virtual void setupScreen();
 
     /*
@@ -41,14 +42,15 @@ protected:
      */
     touchgfx::Box __background;
     touchgfx::ScalableImage background;
+    touchgfx::Image image1;
     touchgfx::TextAreaWithOneWildcard hour;
     touchgfx::GraphScroll<100> graph_temp;
-    touchgfx::GraphElementLine graph_tempLine1;
-    touchgfx::PainterRGB888 graph_tempLine1Painter;
     touchgfx::GraphElementGridX graph_tempMajorXAxisGrid;
     touchgfx::GraphElementGridY graph_tempMajorYAxisGrid;
     touchgfx::GraphLabelsX graph_tempMajorXAxisLabel;
     touchgfx::GraphLabelsY graph_tempMajorYAxisLabel;
+    touchgfx::GraphElementLine graph_tempLine1;
+    touchgfx::PainterRGB888 graph_tempLine1Painter;
     touchgfx::Slider slider_sinus_count;
     touchgfx::TextAreaWithOneWildcard text_sinus_count;
 
@@ -63,6 +65,12 @@ protected:
 private:
 
     /*
+     * Canvas Buffer Size
+     */
+    static const uint32_t CANVAS_BUFFER_SIZE = 7200;
+    uint8_t canvasBuffer[CANVAS_BUFFER_SIZE];
+
+    /*
      * Callback Declarations
      */
     touchgfx::Callback<Screen1ViewBase, const touchgfx::Slider&, int> sliderValueChangedCallback;
@@ -72,11 +80,6 @@ private:
      */
     void sliderValueChangedCallbackHandler(const touchgfx::Slider& src, int value);
 
-    /*
-     * Canvas Buffer Size
-     */
-    static const uint16_t CANVAS_BUFFER_SIZE = 7200;
-    uint8_t canvasBuffer[CANVAS_BUFFER_SIZE];
 };
 
 #endif // SCREEN1VIEWBASE_HPP

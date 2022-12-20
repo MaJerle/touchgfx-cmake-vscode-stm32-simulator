@@ -8,14 +8,14 @@
 extern touchgfx::GeneratedFont& getFont_verdana_20_4bpp();
 extern touchgfx::GeneratedFont& getFont_verdana_40_4bpp();
 extern touchgfx::GeneratedFont& getFont_verdana_10_4bpp();
-extern touchgfx::GeneratedFont& getFont_SairaCondensed_Bold_60_4bpp();
+extern touchgfx::GeneratedFont& getFont_SairaCondensed_Bold_40_4bpp();
 extern touchgfx::GeneratedFont& getFont_Saira_Regular_20_4bpp();
 
 const touchgfx::Font* touchgfx_fonts[] = {
     &(getFont_verdana_20_4bpp()),
     &(getFont_verdana_40_4bpp()),
     &(getFont_verdana_10_4bpp()),
-    &(getFont_SairaCondensed_Bold_60_4bpp()),
+    &(getFont_SairaCondensed_Bold_40_4bpp()),
     &(getFont_Saira_Regular_20_4bpp())
 };
 
@@ -75,7 +75,7 @@ void resetFont(touchgfx::FontId fontId)
         touchgfx_fonts[2] = &(getFont_verdana_10_4bpp());
         break;
     case 3:
-        touchgfx_fonts[3] = &(getFont_SairaCondensed_Bold_60_4bpp());
+        touchgfx_fonts[3] = &(getFont_SairaCondensed_Bold_40_4bpp());
         break;
     case 4:
         touchgfx_fonts[4] = &(getFont_Saira_Regular_20_4bpp());

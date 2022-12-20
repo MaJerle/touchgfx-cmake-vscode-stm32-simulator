@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -194,6 +194,7 @@ private:
         {
             init(src);
         }
+
         void init(const uint8_t* src)
         {
             data = src;
@@ -208,6 +209,7 @@ private:
                 getNextLength();
             }
         }
+
         void skipNext(int32_t skip)
         {
             for (;;)
@@ -225,10 +227,12 @@ private:
                 }
             }
         }
+
         uint8_t getColor() const
         {
             return color;
         }
+
         int32_t getLength() const
         {
             return length;
@@ -256,6 +260,7 @@ private:
                 getNextLength();
             }
         }
+
         uint8_t getNextHalfByte()
         {
             if (firstHalfByte) // Start of new byte, read data from BW_RLE stream
@@ -268,6 +273,7 @@ private:
             firstHalfByte = !firstHalfByte; // Toggle 'start of byte'
             return len;
         }
+
         const uint8_t* data;  // Pointer to compressed data (BW_RLE)
         uint8_t thisHalfByte; // The next half byte from the input
         uint8_t nextHalfByte; // The next half byte after 'thisHalfByte'

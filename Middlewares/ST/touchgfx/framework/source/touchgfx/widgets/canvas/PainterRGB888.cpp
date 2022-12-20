@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -24,6 +24,6 @@ void PainterRGB888::paint(uint8_t* destination, int16_t offset, int16_t /*widget
 
 void PainterRGB888::tearDown() const
 {
-    paint::rgb888::tearDown();
+    paint::tearDown();
 }
 } // namespace touchgfx

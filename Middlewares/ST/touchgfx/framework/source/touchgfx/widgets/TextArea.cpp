@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -197,7 +197,7 @@ int16_t TextArea::calculateTextHeight(const Unicode::UnicodeChar* format, ...) c
     va_start(pArg, format);
 
     const Font* fontToDraw = typedText.getFont();
-    int16_t textHeight = fontToDraw->getMinimumTextHeight();
+    int16_t textHeight = fontToDraw->getHeight();
 
     TextProvider textProvider;
     textProvider.initialize(format, pArg, fontToDraw->getGSUBTable(), fontToDraw->getContextualFormsTable());
@@ -233,25 +233,27 @@ TextArea::BoundingArea TextArea::calculateBoundingArea() const
 
     const Font* fontToDraw = typedText.getFont();
     const Unicode::UnicodeChar* textToDraw = typedText.getText();
-    const int16_t lineHeight = fontToDraw->getMinimumTextHeight() + linespace;
+    const int16_t fontHeight = fontToDraw->getHeight();
+    const int16_t lineHeight = fontHeight + linespace;
     int16_t width = 0;
-    uint16_t numOfLines = 0;
+    uint16_t numberOfLines = 0;
 
     if (wideTextAction == WIDE_TEXT_NONE)
     {
         TextProvider textProvider;
         textProvider.initialize(textToDraw, fontToDraw->getGSUBTable(), fontToDraw->getContextualFormsTable(), getWildcard1(), getWildcard2());
 
+        int16_t widgetRectHeight = (rotation == TEXT_ROTATE_0 || rotation == TEXT_ROTATE_180) ? getHeight() : getWidth();
+
         // Iterate through each line, find the longest line width and sum up the total height of the bounding rectangle
         do
         {
             const uint16_t lineWidth = LCD::stringWidth(textProvider, *(fontToDraw), 0x7FFF, typedText.getTextDirection());
-            if (width < lineWidth)
-            {
-                width = lineWidth;
-            }
-            numOfLines++;
-        } while (!textProvider.endOfString());
+            width = MAX(width, lineWidth);
+            numberOfLines++;
+            widgetRectHeight -= lineHeight;
+            // Keep reading until end of string or next line completely invisible.
+        } while (!textProvider.endOfString() && widgetRectHeight + fontToDraw->getPixelsAboveTop() > 0);
     }
     else
     {
@@ -260,31 +262,21 @@ TextArea::BoundingArea TextArea::calculateBoundingArea() const
 
         const int16_t widgetRectWidth = (rotation == TEXT_ROTATE_0 || rotation == TEXT_ROTATE_180) ? getWidth() : getHeight();
         int16_t widgetRectHeight = (rotation == TEXT_ROTATE_0 || rotation == TEXT_ROTATE_180) ? getHeight() : getWidth();
-        LCD::WideTextInternalStruct wtis(wideTextProvider, widgetRectWidth - indentation, typedText.getTextDirection(), fontToDraw, wideTextAction);
+        LCD::WideTextInternalStruct wtis(wideTextProvider, widgetRectWidth - indentation, widgetRectHeight, typedText.getTextDirection(), fontToDraw, linespace, wideTextAction);
 
         // Iterate through each line, find the longest line width and sum up the total height of the bounding rectangle
         do
         {
-            wtis.getStringLengthForLine(lineHeight * 2 > widgetRectHeight);
-
+            wtis.scanStringLengthForLine();
             const uint16_t lineWidth = wtis.getLineWidth();
-            if (width < lineWidth)
-            {
-                width = lineWidth;
-            }
-            numOfLines++;
+            width = MAX(width, lineWidth);
+            numberOfLines++;
             widgetRectHeight -= lineHeight;
-        } while (wtis.getCurrChar() != 0 && widgetRectHeight > lineHeight);
+            // Keep reading until end of string, ellipsis inserted or next line completely invisible.
+        } while (wtis.getCurrChar() != 0 && !wtis.ellipsisAtEndOfLine() && widgetRectHeight + fontToDraw->getPixelsAboveTop() > 0);
     }
-    int16_t height = (numOfLines * lineHeight) - linespace; // Linespace from the last line is not covering any text and can be omitted
-
-    // In Arabic the minimum text height of the font is not adjusted according
-    // to the diacritical marks below a letter. To accommodate this, we extend
-    // the bounding area with one extra line, to have enough space for these marks.
-    if (height > 0)
-    {
-        height += fontToDraw->getMinimumTextHeight();
-    }
+    int16_t height = (numberOfLines * lineHeight) - linespace;
+    height = MAX(height, fontHeight) + fontToDraw->getPixelsBelowBottom();
 
     Rect boundingRect(0, 0, width, height);
 

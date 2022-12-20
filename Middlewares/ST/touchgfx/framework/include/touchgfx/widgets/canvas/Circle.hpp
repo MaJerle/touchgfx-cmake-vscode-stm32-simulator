@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -162,6 +162,7 @@ public:
     void setRadius(const T r)
     {
         this->circleRadius = CWRUtil::toQ5(r);
+        this->circleRadius = MAX(CWRUtil::toQ5(0), this->circleRadius);
     }
 
     /**
@@ -373,6 +374,7 @@ public:
     void setLineWidth(const T width)
     {
         this->circleLineWidth = CWRUtil::toQ5(width);
+        this->circleLineWidth = MAX(CWRUtil::toQ5(0), this->circleLineWidth);
     }
 
     /**

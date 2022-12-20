@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -26,17 +26,6 @@ namespace paint
 {
 namespace rgb888
 {
-const uint8_t* blendL8CLUT = 0;
-
-void setL8Pallette(const uint8_t* const data)
-{
-    blendL8CLUT = data;
-}
-
-void tearDown(void)
-{
-}
-
 void lineFromColor(uint8_t* const ptr, const unsigned count, const uint32_t color, const uint8_t alpha)
 {
     uint8_t* framebuffer = ptr;
@@ -188,6 +177,7 @@ void lineFromL8ARGB8888(uint8_t* const ptr, const uint8_t* const data, const uns
         }
     } while (framebuffer < chunkend);
 }
+
 } // namespace rgb888
 } // namespace paint
 } // namespace touchgfx

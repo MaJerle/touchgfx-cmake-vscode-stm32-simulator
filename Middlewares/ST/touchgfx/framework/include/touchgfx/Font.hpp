@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -114,6 +114,7 @@ struct GlyphNode
         return ((flags & GLYPH_DATA_ADVANCE_BIT8) << 1) | _advance;
     }
 };
+
 #pragma pack()
 
 #pragma pack(2)
@@ -127,6 +128,7 @@ struct KerningNode
     Unicode::UnicodeChar unicodePrevChar; ///< The Unicode for the first character in the kerning pair
     int8_t distance;                      ///< The kerning distance
 };
+
 #pragma pack()
 
 /** Defines an alias representing a Font ID. */
@@ -293,22 +295,33 @@ public:
      *
      * @return The number of blank pixels above the text.
      */
-    virtual uint8_t getSpacingAbove(const Unicode::UnicodeChar* text, ...) const;
+    virtual int16_t getSpacingAbove(const Unicode::UnicodeChar* text, ...) const;
 
     /**
      * Gets the height of the highest character in a given string. The height includes the
      * spacing above the text which is included in the font.
      *
-     * @param  text A null-terminated Unicode string.
-     * @param  ...  Variable arguments providing additional information inserted at wildcard
-     *              placeholders.
-     *
      * @return The height if the given text.
+     *
+     * @deprecated Please use getHeight instead.
      */
-    virtual uint16_t getMaxTextHeight(const Unicode::UnicodeChar* text, ...) const;
+    TOUCHGFX_DEPRECATED("Please use getHeight() instead.", virtual uint16_t getMaxTextHeight(const Unicode::UnicodeChar* text, ...) const);
 
     /**
-     * Returns the height in pixels of this font. The returned value corresponds to the
+     * Returns the height in pixels of this font. The returned value corresponds to the maximum
+     * height occupied by a character in the font.
+     *
+     * @return The height in pixels of this font.
+     *
+     * @note It is not sufficient to allocate text areas with this height. Use getMinimumTextHeight
+     *       for this.
+     *
+     * @deprecated Please use getBaseline() instead.
+     */
+    TOUCHGFX_DEPRECATED("Please use getBaseline() instead.", virtual uint16_t getFontHeight() const);
+
+    /**
+     * Returns the position of the baseline of this font. The returned value corresponds to the
      * maximum height occupied by a character in the font.
      *
      * @return The height in pixels of this font.
@@ -316,21 +329,50 @@ public:
      * @note It is not sufficient to allocate text areas with this height. Use
      *       getMinimumTextHeight for this.
      */
-    FORCE_INLINE_FUNCTION virtual uint16_t getFontHeight() const
+    FORCE_INLINE_FUNCTION virtual uint16_t getBaseline() const
+    {
+        return baselineHeight;
+    }
+
+    /**
+     * Returns the height of a font. The font may exceed the top by getPixelsAboveTop().
+     *
+     * @return The font height.
+     *
+     * @deprecated Please use getHeight() instead.
+     */
+    TOUCHGFX_DEPRECATED("Please use getHeight() instead.", virtual uint16_t getMinimumTextHeight() const);
+
+    /**
+     * Returns the height of a font. The font may exceed the top by getPixelsAboveTop() or the
+     * bottom by getPixelsBelowBottom.
+     *
+     * @return The font height.
+     */
+    FORCE_INLINE_FUNCTION virtual uint16_t getHeight() const
     {
         return fontHeight;
     }
 
     /**
-     * Returns the minimum height needed for a text field that uses this font. Takes into
-     * account that certain characters (eg 'g') have pixels below the baseline, thus making
-     * the text height larger than the font height.
+     * Gets pixels above top of the normal text height. For most fonts this is 0, for some 'wedding'
+     * fonts the number may be positive.
      *
-     * @return The minimum height needed for a text field that uses this font.
+     * @return The pixels above top of normal text.
      */
-    FORCE_INLINE_FUNCTION virtual uint16_t getMinimumTextHeight() const
+    FORCE_INLINE_FUNCTION uint16_t getPixelsAboveTop() const
     {
-        return fontHeight + pixelsBelowBaseline;
+        return pixelsAboveTop;
+    }
+
+    /**
+     * Gets number of pixel rows below the bottom of the font.
+     *
+     * @return The pixels below bottom.
+     */
+    FORCE_INLINE_FUNCTION uint16_t getPixelsBelowBottom() const
+    {
+        return pixelsBelowBottom;
     }
 
     /**
@@ -473,19 +515,22 @@ protected:
     /**
      * Initializes a new instance of the Font class. The protected constructor of a Font.
      *
-     * @param  height       The font height in pixels.
-     * @param  pixBelowBase The number of pixels below the base line.
-     * @param  bitsPerPixel The number of bits per pixel.
-     * @param  byteAlignRow The glyphs are saved with each row byte aligned.
-     * @param  maxLeft      The maximum left extend for a glyph in the font.
-     * @param  maxRight     The maximum right extend for a glyph in the font.
-     * @param  fallbackChar The fallback character for the typography in case no glyph is
-     *                      available.
+     * @param  height         The font height in pixels.
+     * @param  baseline       The baseline.
+     * @param  pixAboveTop    The maximum number of pixels above the top of the text.
+     * @param  pixBelowBottom The number of pixels below the base line.
+     * @param  bitsPerPixel   The number of bits per pixel.
+     * @param  byteAlignRow   The glyphs are saved with each row byte aligned.
+     * @param  maxLeft        The maximum left extend for a glyph in the font.
+     * @param  maxRight       The maximum right extend for a glyph in the font.
+     * @param  fallbackChar   The fallback character for the typography in case no glyph is available.
      * @param  ellipsisChar The ellipsis character used for truncating long texts.
      */
-    Font(uint16_t height, uint8_t pixBelowBase, uint8_t bitsPerPixel, uint8_t byteAlignRow, uint8_t maxLeft, uint8_t maxRight, const Unicode::UnicodeChar fallbackChar, const Unicode::UnicodeChar ellipsisChar)
+    Font(uint16_t height, uint16_t baseline, uint8_t pixAboveTop, uint8_t pixBelowBottom, uint8_t bitsPerPixel, uint8_t byteAlignRow, uint8_t maxLeft, uint8_t maxRight, const Unicode::UnicodeChar fallbackChar, const Unicode::UnicodeChar ellipsisChar)
         : fontHeight(height),
-          pixelsBelowBaseline(pixBelowBase),
+          baselineHeight(baseline),
+          pixelsAboveTop(pixAboveTop),
+          pixelsBelowBottom(pixBelowBottom),
           bPerPixel(bitsPerPixel),
           bAlignRow(byteAlignRow),
           maxPixelsLeft(maxLeft),
@@ -496,7 +541,9 @@ protected:
     }
 
     uint16_t fontHeight;                    ///< The font height in pixels
-    uint8_t pixelsBelowBaseline;            ///< The number of pixels below the base line
+    uint16_t baselineHeight;                ///< The baseline
+    uint8_t pixelsAboveTop;                 ///< The number of pixels above the top
+    uint8_t pixelsBelowBottom;              ///< The number of pixels below the bottom
     uint8_t bPerPixel : 7;                  ///< The number of bits per pixel
     uint8_t bAlignRow : 1;                  ///< The glyphs are saved with each row byte aligned
     uint8_t maxPixelsLeft;                  ///< The maximum number of pixels a glyph extends to the left

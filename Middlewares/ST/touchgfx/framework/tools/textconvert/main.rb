@@ -1,7 +1,7 @@
 # Copyright (c) 2018(-2022) STMicroelectronics.
 # All rights reserved.
 #
-# This file is part of the TouchGFX 4.20.0 distribution.
+# This file is part of the TouchGFX 4.21.0 distribution.
 #
 # This software is licensed under terms that can be found in the LICENSE file in
 # the root directory of this software component.
@@ -101,49 +101,49 @@ UPGRADE
       text_conf = JSON.parse(File.read(application_config))["text_configuration"] || {}
 
       remap = text_conf["remap"]
-      if !remap.nil?
+      if remap
         remap_global = remap == "yes" ? "yes" : "no"
       end
 
       autohint = text_conf["autohint"]
-      if !autohint.nil?
+      if autohint
         autohint_setting = (autohint == "no" || autohint == "force") ? autohint : "default"
       end
 
       a1 = text_conf["a1"]
-      if !a1.nil?
+      if a1
         data_format_a1 = a1 == "yes" ? "A1" : ""
       end
       a2 = text_conf["a2"]
-      if !a2.nil?
+      if a2
         data_format_a2 = a2 == "yes" ? "A2" : ""
       end
       a4 = text_conf["a4"]
-      if !a4.nil?
+      if a4
         data_format_a4 = a4 == "yes" ? "A4" : ""
       end
       a8 = text_conf["a8"]
-      if !a8.nil?
+      if a8
         data_format_a8 = a8 == "yes" ? "A8" : ""
       end
 
       binary_translations = text_conf["binary_translations"]
-      if !binary_translations.nil?
+      if binary_translations
         generate_binary_translations = binary_translations == "yes" ? "yes" : "no"
       end
 
       binary_fonts = text_conf["binary_fonts"]
-      if !binary_fonts.nil?
-        generate_binary_fonts = binary_fonts== "yes" ? "yes" : "no"
+      if binary_fonts
+        generate_binary_fonts = binary_fonts == "yes" ? "yes" : "no"
       end
 
       bpp = text_conf["framebuffer_bpp"]
-      if !bpp.nil?
+      if bpp
         framebuffer_bpp = "BPP" + bpp
       end
 
       font_format = text_conf["font_format"]
-      if !font_format.nil?
+      if font_format
         values = ["0", "1"]
         if values.include? font_format
           generate_font_format = font_format
@@ -163,7 +163,7 @@ UPGRADE
 
     begin
       # 0. check text database file extension. Allow texts.xlsx as parameter, but require a texts.xml to be present
-      # 1. if text_converter is newer than compile_time.cache, remove all files under generated/texts and generated/fonts
+      # 1. if text_converter/font_converter is newer than compile_time.cache, remove all files under generated/texts and generated/fonts
       # 1b if generated/fonts/include/fonts/ApplicationFontProvider.hpp is missing, force generation of TextKeysAndLanguages.hpp
       # 1c if generated/texts/cache/options.cache contents differ from supplies arguments, force run
       # 2. if generated/texts/cache/compile_time.cache is newer than xml file and fonts/ApplicationFontProvider.hpp exists then stop now
@@ -186,7 +186,7 @@ UPGRADE
       end
 
       # 1:
-      text_converter_time = [File.mtime( __FILE__), File.ctime( __FILE__ )].max;
+      text_converter_time = Dir[File.join(__dir__,'**','*'), font_convert_path].collect{|f| [File.mtime(f), File.ctime(f)]}.flatten.max
 
       if ((compile_time_exists = File.exists?("#{@localization_output_path}/cache/compile_time.cache")) && text_converter_time > File.mtime("#{@localization_output_path}/cache/compile_time.cache")) || !compile_time_exists
         #remove all files, as text converter is newer (probably upgraded to new TouchGFX)

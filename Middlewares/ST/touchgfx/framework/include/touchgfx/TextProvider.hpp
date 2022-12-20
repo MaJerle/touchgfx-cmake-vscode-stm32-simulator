@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -167,6 +167,7 @@ private:
     uint8_t nextSubString;
     const Unicode::UnicodeChar* substringPointer;
     bool isWritingWildcard;
+
     template <unsigned int size>
     class circularBuffer
     {
@@ -175,29 +176,35 @@ private:
             : pos(0), used(0)
         {
         }
+
         FORCE_INLINE_FUNCTION void flush()
         {
             used = 0;
         }
+
         FORCE_INLINE_FUNCTION bool isEmpty() const
         {
             return used == 0;
         }
+
         FORCE_INLINE_FUNCTION bool isFull() const
         {
             return used == size;
         }
+
         FORCE_INLINE_FUNCTION Unicode::UnicodeChar peekChar()
         {
             assert(used > 0);
             return buffer[pos];
         }
+
         FORCE_INLINE_FUNCTION Unicode::UnicodeChar peekChar(uint16_t offset)
         {
             assert(offset < used);
             const uint16_t index = pos + offset;
             return buffer[index < size ? index : index - size];
         }
+
         FORCE_INLINE_FUNCTION void dropFront(uint16_t num = 1)
         {
             assert(used >= num);
@@ -208,6 +215,7 @@ private:
                 pos -= size;
             }
         }
+
         Unicode::UnicodeChar popFront()
         {
             assert(used > 0);
@@ -220,11 +228,13 @@ private:
             }
             return ch;
         }
+
         Unicode::UnicodeChar popBack()
         {
             assert(used > 0);
             return peekChar(used-- - 1);
         }
+
         void allocateFront(uint16_t num)
         {
             assert(used + num <= size);
@@ -235,6 +245,7 @@ private:
             }
             pos -= num;
         }
+
         void pushFrontForce(Unicode::UnicodeChar newChar)
         {
             // "use" one more entry, if already full overwrite back entry ("used" is unchanged)
@@ -250,26 +261,31 @@ private:
             pos--;
             replaceAt0(newChar);
         }
+
         void pushFront(Unicode::UnicodeChar newChar)
         {
             allocateFront(1);
             replaceAt0(newChar);
         }
+
         FORCE_INLINE_FUNCTION void pushBack(Unicode::UnicodeChar newChar)
         {
             assert(used < size);
             replaceAt(++used - 1, newChar);
         }
+
         FORCE_INLINE_FUNCTION void replaceAt0(Unicode::UnicodeChar newChar)
         {
             buffer[pos] = newChar;
         }
+
         FORCE_INLINE_FUNCTION void replaceAt1(Unicode::UnicodeChar newChar)
         {
             assert(used > 1);
             const uint16_t index = pos + 1;
             buffer[index < size ? index : 0] = newChar;
         }
+
         FORCE_INLINE_FUNCTION void replaceAt(uint16_t offset, Unicode::UnicodeChar newChar)
         {
             assert(used > offset);
@@ -282,6 +298,7 @@ private:
         uint16_t pos;
         uint16_t used;
     };
+
     static const int NUM_PREV_CHARS = 2;
     static const int NUM_NEXT_CHARS = 10; // input + lookahead + delta(substitution)
     static const int NUM_XTRA_CHARS = 2;

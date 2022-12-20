@@ -25,7 +25,7 @@ struct TypographyFontIndex
     static const touchgfx::FontId DEFAULT = 0;        // verdana_20_4bpp
     static const touchgfx::FontId LARGE = 1;          // verdana_40_4bpp
     static const touchgfx::FontId SMALL = 2;          // verdana_10_4bpp
-    static const touchgfx::FontId MAINSCREENHOUR = 3; // SairaCondensed_Bold_60_4bpp
+    static const touchgfx::FontId MAINSCREENHOUR = 3; // SairaCondensed_Bold_40_4bpp
     static const touchgfx::FontId MAINSCREENDATE = 4; // Saira_Regular_20_4bpp
     static const uint16_t NUMBER_OF_FONTS = 5;
 };

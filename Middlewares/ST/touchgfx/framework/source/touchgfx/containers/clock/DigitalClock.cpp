@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -44,7 +44,7 @@ void DigitalClock::setBaselineY(int16_t baselineY)
 {
     if (text.getTypedText().hasValidId())
     {
-        moveTo(getX(), baselineY - text.getTypedText().getFont()->getFontHeight());
+        moveTo(getX(), baselineY - text.getTypedText().getFont()->getBaseline());
     }
 }
 

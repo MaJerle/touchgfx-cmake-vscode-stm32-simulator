@@ -11,7 +11,7 @@ namespace touchgfx
 class GeneratedFont : public ConstFont
 {
 public:
-    GeneratedFont(const GlyphNode* list, uint16_t size, uint16_t height, uint8_t pixBelowBase, uint8_t bitsPerPixel, uint8_t byteAlignRow, uint8_t maxLeft, uint8_t maxRight, const uint8_t* const* glyphDataInternalFlash, const KerningNode* kerningList, const Unicode::UnicodeChar fallbackChar, const Unicode::UnicodeChar ellipsisChar, const uint16_t* const gsubData, const FontContextualFormsTable* formsTable);
+    GeneratedFont(const GlyphNode* glyphs, uint16_t numGlyphs, uint16_t height, uint16_t baseline, uint8_t pixAboveTop, uint8_t pixBelowBottom, uint8_t bitsPerPixel, uint8_t byteAlignRow, uint8_t maxLeft, uint8_t maxRight, const uint8_t* const* glyphDataInternalFlash, const KerningNode* kerningList, const Unicode::UnicodeChar fallbackChar, const Unicode::UnicodeChar ellipsisChar, const uint16_t* const gsubData, const FontContextualFormsTable* formsTable);
 
     using ConstFont::getGlyph;
 
@@ -31,7 +31,7 @@ public:
 
 protected:
     GeneratedFont()
-        : ConstFont(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), glyphData(0), kerningData(0), gsubTable(0), arabicTable(0)
+        : ConstFont(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), glyphData(0), kerningData(0), gsubTable(0), arabicTable(0)
     {
     }
 
@@ -52,10 +52,12 @@ struct BinaryFontData
     uint32_t offsetToGSUB;             // uint16_t[]
     uint32_t offsetToArabicTable;      // FontContextualFormsTable
     uint16_t numberOfGlyphs;           // Number of glyphs in Table and Glyphs
-    uint16_t height;                   // Font height from base
-    uint8_t pixBelowBase;              // Max pixels below base
-    uint8_t bitsPerPixel : 7;          // Bpp
-    uint8_t byteAlignRow : 1;          // A4/A2/A1
+    uint16_t fontHeight;               // Font height
+    uint16_t baseline;                 // Distance to baseline
+    uint8_t pixAboveTop;               // Max pixels above top
+    uint8_t pixBelowBottom;            // Max pixels below bottom
+    uint8_t bitsPerPixel;              // Bpp
+    uint8_t byteAlignRow;              // A4/A2/A1
     uint8_t maxLeft;                   // The maximum a glyph extends to the left
     uint8_t maxRight;                  // The maximum a glyph extends to the right
     Unicode::UnicodeChar fallbackChar; // Fallback Character for the font
@@ -68,8 +70,10 @@ public:
     BinaryFont(const struct touchgfx::BinaryFontData* data)
         : GeneratedFont((const GlyphNode*)((const uint8_t*)data + data->offsetToTable),
                         data->numberOfGlyphs,
-                        data->height,
-                        data->pixBelowBase,
+                        data->fontHeight,
+                        data->baseline,
+                        data->pixAboveTop,
+                        data->pixBelowBottom,
                         data->bitsPerPixel,
                         data->byteAlignRow,
                         data->maxLeft,

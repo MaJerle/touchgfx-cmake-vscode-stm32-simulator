@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -390,6 +390,30 @@ public:
         y = yScale.to<T>();
     }
 
+    /**
+     * Sets the filling rule to be used when rendering the outline.
+     *
+     * @param  rule The filling rule.
+     *
+     * @see getFillingRule
+     */
+    void setFillingRule(Rasterizer::FillingRule rule)
+    {
+        fillingRule = rule;
+    }
+
+    /**
+     * Gets the filling rule being used when rendering the outline.
+     *
+     * @return The filling rule.
+     *
+     * @see setFillingRule
+     */
+    Rasterizer::FillingRule getFillingRule() const
+    {
+        return fillingRule;
+    }
+
     virtual bool drawCanvasWidget(const Rect& invalidatedArea) const;
 
     /**
@@ -400,6 +424,8 @@ public:
     void updateAbstractShapeCache();
 
 protected:
+    Rasterizer::FillingRule fillingRule; ///< The filling rule used by the rasterizer
+
     /**
      * Sets the cached coordinates of a given point/corner. The coordinates in the cache are
      * the coordinates from the corners after rotation and scaling has been applied to the

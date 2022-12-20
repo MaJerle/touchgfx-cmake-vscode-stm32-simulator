@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -49,6 +49,7 @@ HAL& getHAL(DMA_Interface& dma, LCD& display, TouchController& tc, int16_t width
     static T hal(dma, display, tc, width, height);
     return hal;
 }
+
 /// @endcond
 
 /**

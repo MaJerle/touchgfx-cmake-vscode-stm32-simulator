@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -57,6 +57,7 @@ public:
             : index(i), clickEvent(event)
         {
         }
+
         int16_t index;                ///< The index of the item clicked.
         const ClickEvent& clickEvent; ///< The ClickEvent that caused the callback to be executed.
     };
@@ -81,6 +82,7 @@ public:
             : index(i), dragEvent(event)
         {
         }
+
         int16_t index;              ///< The index of the item where the drag has ended.
         const DragEvent& dragEvent; ///< The DragEvent that caused the callback to be executed.
     };
@@ -1433,6 +1435,7 @@ public:
     {
         setXAxisFactor(scale);
     }
+
     /// @endcond
 
     /**
@@ -1451,6 +1454,7 @@ public:
     {
         setXAxisFactor(scale);
     }
+
     /// @endcond
 
     /** @copydoc setXAxisFactor(int) */
@@ -1477,6 +1481,7 @@ public:
     {
         return getXAxisFactorAsInt();
     }
+
     /// @endcond
 
     /**
@@ -1495,6 +1500,7 @@ public:
     {
         return getXAxisFactorAsFloat();
     }
+
     /// @endcond
 
     /** @copydoc getXAxisFactorAsInt() */
@@ -1666,6 +1672,7 @@ protected:
     {
         setXAxisFactorScaled(scale);
     }
+
     /// @endcond
 
     /// @cond
@@ -1673,6 +1680,7 @@ protected:
     {
         return getXAxisFactorScaled();
     }
+
     /// @endcond
 
     virtual CWRUtil::Q5 indexToScreenXQ5(int16_t index) const

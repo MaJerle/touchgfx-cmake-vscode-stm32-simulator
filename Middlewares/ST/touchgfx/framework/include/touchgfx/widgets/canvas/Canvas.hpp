@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -59,6 +59,30 @@ public:
     }
 
     /**
+     * Sets the filling rule to be used when rendering the outline.
+     *
+     * @param  rule The filling rule.
+     *
+     * @see getFillingRule
+     */
+    void setFillingRule(Rasterizer::FillingRule rule)
+    {
+        rasterizer.setFillingRule(rule);
+    }
+
+    /**
+     * Gets the filling rule being used when rendering the outline.
+     *
+     * @return The filling rule.
+     *
+     * @see setFillingRule
+     */
+    Rasterizer::FillingRule getFillingRule() const
+    {
+        return rasterizer.getFillingRule();
+    }
+
+    /**
      * Move the current pen position to (x, y). If the pen is outside the drawing area, nothing is
      * done, but the coordinates are saved in case the next operation is lineTo a coordinate which
      * is inside (or on the opposite side of) the drawing area.
@@ -77,7 +101,49 @@ public:
      *
      * @see CWRUtil::Q5, moveTo
      */
-    void lineTo(CWRUtil::Q5 x, CWRUtil::Q5 y);
+    virtual void lineTo(CWRUtil::Q5 x, CWRUtil::Q5 y);
+
+    /**
+     * Draw a Quadratic Bezier curve via x1,y1 to x2,y2.
+     *
+     * @param  x0 The start x coordinate.
+     * @param  y0 The start y coordinate.
+     * @param  x1 The 'via' x coordinate.
+     * @param  y1 The 'via' y coordinate.
+     * @param  x  The end x coordinate.
+     * @param  y  The end y coordinate.
+     */
+    void quadraticBezierTo(float x0, float y0, const float x1, const float y1, const float x, const float y)
+    {
+        recursiveQuadraticBezier(x0, y0, x1, y1, x, y, 0);
+        lineTo(CWRUtil::toQ5<float>(x), CWRUtil::toQ5<float>(y));
+    }
+
+    /**
+     * Draw a Cubic Bezier curve via x1,y1 and x2,y2 to x3,y3.
+     *
+     * @param  x0 The start x coordinate.
+     * @param  y0 The start y coordinate.
+     * @param  x1 The first 'via' x coordinate.
+     * @param  y1 The first 'via' y coordinate.
+     * @param  x2 The second 'via' x coordinate.
+     * @param  y2 The second 'via' y coordinate.
+     * @param  x  The end x coordinate.
+     * @param  y  The end y coordinate.
+     */
+    void cubicBezierTo(float x0, float y0, float x1, float y1, float x2, float y2, float x, float y)
+    {
+        recursiveCubicBezier(x0, y0, x1, y1, x2, y2, x, y, 0);
+        lineTo(CWRUtil::toQ5<float>(x), CWRUtil::toQ5<float>(y));
+    }
+
+    /**
+     * Closes the current shape so that the inside can be filled using a Painter.
+     *
+     * @return True if there is enough memory to calculate the shape outline, false if there is too
+     *         little memory.
+     */
+    bool close();
 
     /**
      * Move the current pen position to (x, y). If the pen is outside (above or below)
@@ -147,11 +213,14 @@ private:
     Rasterizer rasterizer;
 
     // Used for optimization of drawing algorithm
-    bool penUp, penHasBeenDown;
-    CWRUtil::Q5 previousX, previousY;
+    bool isPenDown;
+    bool wasPenDown;
+    CWRUtil::Q5 previousX;
+    CWRUtil::Q5 previousY;
     uint8_t previousOutside;
     uint8_t penDownOutside;
-    CWRUtil::Q5 initialX, initialY;
+    CWRUtil::Q5 initialMoveToX;
+    CWRUtil::Q5 initialMoveToY;
 
     enum
     {
@@ -169,7 +238,8 @@ private:
 
     void transformFrameBufferToDisplay(CWRUtil::Q5& x, CWRUtil::Q5& y) const;
 
-    bool close();
+    void recursiveQuadraticBezier(const float x1, const float y1, const float x2, const float y2, const float x3, const float y3, const unsigned level);
+    void recursiveCubicBezier(const float x1, const float y1, const float x2, const float y2, const float x3, const float y3, const float x4, const float y4, const unsigned level);
 };
 
 } // namespace touchgfx

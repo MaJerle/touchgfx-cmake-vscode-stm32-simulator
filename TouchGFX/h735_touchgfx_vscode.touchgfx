@@ -10,23 +10,32 @@
             "Name": "background",
             "Width": 480,
             "Height": 272,
-            "Filename": "__designer\\Dark_Backgrounds_Main_bg_480x272px.png",
+            "Filename": "__generated\\alternate_theme_images_backgrounds_480x272_poly.png",
             "ScalingAlgorithm": "Nearest-neighbor"
+          },
+          {
+            "Type": "Image",
+            "Name": "image1",
+            "Y": 2,
+            "Width": 480,
+            "Height": 50,
+            "RelativeFilename": "__generated\\alternate_theme_images_bars_480x272_bottom_dark.png",
+            "Alpha": 127
           },
           {
             "Type": "TextArea",
             "Name": "hour",
-            "X": 21,
-            "Y": -12,
-            "Width": 176,
-            "Height": 94,
+            "X": 14,
+            "Y": 2,
+            "Width": 118,
+            "Height": 50,
             "TextId": "__SingleUse_GBRP",
             "TextRotation": "0",
             "Color": {
+              "Red": 255,
               "Green": 255,
-              "Blue": 238
+              "Blue": 255
             },
-            "AutoSize": true,
             "Wildcard1": {
               "TextId": "__SingleUse_7Z8V",
               "UseBuffer": true,
@@ -36,9 +45,9 @@
           {
             "Type": "DynamicGraph",
             "Name": "graph_temp",
-            "Y": 66,
+            "Y": 59,
             "Width": 480,
-            "Height": 206,
+            "Height": 213,
             "DataSeed": -1546964486,
             "NumberOfValues": 100,
             "MaxY": 100.0,
@@ -47,28 +56,31 @@
             "XAxisScale": 1.0,
             "InsertRandomValues": true,
             "LabelSizeBottom": 20,
-            "LabelSizeLeft": 20,
+            "LabelSizeLeft": 25,
+            "LabelSizeRight": 5,
             "PaddingTop": 6,
             "PaddingBottom": 3,
-            "PaddingLeft": 5,
+            "PaddingLeft": 8,
+            "PaddingRight": 5,
             "GraphType": "GraphScroll",
             "GraphDrawers": [
               {
                 "Type": "LineDrawer",
                 "LineWidth": 2,
+                "FileNameImage": "",
                 "Color": {
-                  "Red": 37,
-                  "Green": 219,
-                  "Blue": 74
+                  "Red": 217,
+                  "Green": 121,
+                  "Blue": 37
                 }
               }
             ],
             "XAxisGrid": {
               "Type": "GraphGrid",
               "Color": {
-                "Red": 82,
-                "Green": 89,
-                "Blue": 92
+                "Red": 71,
+                "Green": 85,
+                "Blue": 110
               },
               "Interval": 10.0,
               "LineWidth": 1
@@ -76,9 +88,9 @@
             "YAxisGrid": {
               "Type": "GraphGrid",
               "Color": {
-                "Red": 82,
-                "Green": 89,
-                "Blue": 92
+                "Red": 71,
+                "Green": 85,
+                "Blue": 110
               },
               "Interval": 10.0,
               "LineWidth": 1
@@ -103,8 +115,8 @@
           {
             "Type": "Slider",
             "Name": "slider_sinus_count",
-            "X": 229,
-            "Y": 18,
+            "X": 264,
+            "Y": 10,
             "Width": 179,
             "Height": 34,
             "IsHorizontalSlider": true,
@@ -116,18 +128,22 @@
             "IndicatorMax": 125,
             "ValueMax": 21,
             "ValueMin": 1,
-            "InitValue": 1,
-            "Style": "Style14"
+            "InitValue": 1
           },
           {
             "Type": "TextArea",
             "Name": "text_sinus_count",
-            "X": 415,
-            "Y": 20,
+            "X": 450,
+            "Y": 11,
             "Width": 8,
-            "Height": 31,
+            "Height": 32,
             "TextId": "__SingleUse_FBQO",
             "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
             "AutoSize": true,
             "Wildcard1": {
               "TextId": "__SingleUse_DM31",
@@ -160,7 +176,6 @@
     "SelectedColorDepth": 24,
     "StartupScreenName": "Screen1",
     "SelectedStartupLanguage": "GB",
-    "Skin": "Blue",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",
     "UIPath": ".",
     "AvailableColorDepths": [
@@ -199,11 +214,12 @@
     "PortraitSkinY": 0,
     "DisplayOrientation": "Landscape",
     "Family": "STM32H7",
+    "SubFamily": "STM32H725/735",
     "Platform": "m7",
     "ProjectFile": "../STM32H735G-DK.ioc",
     "OptionalComponentsRoot": "../Middlewares/ST/touchgfx_components",
     "OptionalComponents": []
   },
-  "Version": "4.20.0",
+  "Version": "4.21.0",
   "CreatedBy": "4.20.0"
 }

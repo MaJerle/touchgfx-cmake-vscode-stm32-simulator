@@ -354,9 +354,9 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/FontCache.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/Font_SairaCondensed_Bold_60_4bpp_0.cpp</name>
+			<name>Application/User/generated/Font_SairaCondensed_Bold_40_4bpp_0.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Font_SairaCondensed_Bold_60_4bpp_0.cpp</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Font_SairaCondensed_Bold_40_4bpp_0.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/Font_Saira_Regular_20_4bpp_0.cpp</name>
@@ -384,9 +384,9 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/GeneratedFont.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/Kerning_SairaCondensed_Bold_60_4bpp.cpp</name>
+			<name>Application/User/generated/Kerning_SairaCondensed_Bold_40_4bpp.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Kerning_SairaCondensed_Bold_60_4bpp.cpp</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Kerning_SairaCondensed_Bold_40_4bpp.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/Kerning_Saira_Regular_20_4bpp.cpp</name>
@@ -409,9 +409,9 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Kerning_verdana_40_4bpp.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/Table_SairaCondensed_Bold_60_4bpp.cpp</name>
+			<name>Application/User/generated/Table_SairaCondensed_Bold_40_4bpp.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Table_SairaCondensed_Bold_60_4bpp.cpp</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Table_SairaCondensed_Bold_40_4bpp.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/Table_Saira_Regular_20_4bpp.cpp</name>
@@ -454,6 +454,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/BitmapDatabase.cpp</locationURI>
 		</link>
 		<link>
+			<name>Application/User/generated/SVGDatabase.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/SVGDatabase.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/generated/image_Blue_Slider_Horizontal_Small_Indicators_slider_horizontal_small_round_edge_knob.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/__designer/image_Blue_Slider_Horizontal_Small_Indicators_slider_horizontal_small_round_edge_knob.cpp</locationURI>
@@ -472,6 +477,16 @@
 			<name>Application/User/generated/image_Dark_Backgrounds_Main_bg_480x272px.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/__designer/image_Dark_Backgrounds_Main_bg_480x272px.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_alternate_theme_images_backgrounds_480x272_poly.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_480x272_poly.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_alternate_theme_images_bars_480x272_bottom_dark.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/__generated/image_alternate_theme_images_bars_480x272_bottom_dark.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/LanguageGb.cpp</name>

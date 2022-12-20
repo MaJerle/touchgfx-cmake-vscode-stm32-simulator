@@ -66,7 +66,7 @@ extern const touchgfx::TypedText::TypedTextData* const typedTextDatabaseArray[];
 
 <% if generate_binary_files? %>
 extern const touchgfx::Unicode::UnicodeChar EmptyLanguageTexts[];
-extern uint32_t const EmptyLanguageIndices[];
+extern const uint32_t EmptyLanguageIndices[];
 
 <% else %>
 <%   if remap_global? %>
@@ -85,7 +85,7 @@ KEEP extern const touchgfx::Unicode::UnicodeChar texts_all_languages[] TEXT_LOCA
 <%   end %>
 <%   get_capitalized_languages.each do |lang| %>
 TEXT_LOCATION_FLASH_PRAGMA
-KEEP extern uint32_t const indices<%= lang %>[] TEXT_LOCATION_FLASH_ATTRIBUTE;
+KEEP extern const uint32_t indices<%= lang %>[] TEXT_LOCATION_FLASH_ATTRIBUTE;
 
 <%     if !remap_global? %>
 TEXT_LOCATION_FLASH_PRAGMA

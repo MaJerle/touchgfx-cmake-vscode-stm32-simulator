@@ -2,7 +2,7 @@
 * Copyright (c) 2018(-2022) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.20.0 distribution.
+* This file is part of the TouchGFX 4.21.0 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -24,7 +24,6 @@
 #include <touchgfx/hal/Types.hpp>
 #include <touchgfx/lcd/LCD.hpp>
 #include <touchgfx/transitions/Transition.hpp>
-#include <touchgfx/widgets/Widget.hpp>
 
 namespace touchgfx
 {
@@ -38,22 +37,6 @@ template <Direction templateDirection>
 class WipeTransition : public Transition
 {
 public:
-    /**
-     * A Widget that reports solid and but does not draw anything.
-     */
-    class FullSolidRect : public Widget
-    {
-    public:
-        virtual Rect getSolidRect() const
-        {
-            return Rect(0U, 0U, rect.width, rect.height);
-        }
-
-        virtual void draw(const Rect& area) const
-        {
-        }
-    };
-
     /**
      * Initializes a new instance of the WipeTransition class.
      *
@@ -92,24 +75,22 @@ public:
         animationCounter++;
 
         // Calculate new position or stop animation
-        if (animationCounter <= (animationSteps))
-        {
-            // Calculate value in [0;targetValue]
-            calculatedValue = EasingEquations::cubicEaseOut(animationCounter, 0, targetValue, animationSteps);
-
-            // Note: Result of "calculatedValue & 1" is compiler dependent for negative values of calculatedValue
-            if (calculatedValue % 2)
-            {
-                // Optimization: calculatedValue is odd, add 1/-1 to move drawables modulo 32 bits in framebuffer
-                calculatedValue += (calculatedValue > 0 ? 1 : -1);
-            }
-        }
-        else
+        if (animationCounter > animationSteps)
         {
             // Final step: stop the animation
             done = true;
             animationCounter = 0;
             return;
+        }
+
+        // Calculate value in [0;targetValue]
+        calculatedValue = EasingEquations::cubicEaseOut(animationCounter, 0, targetValue, animationSteps);
+
+        // Note: Result of "calculatedValue & 1" is compiler dependent for negative values of calculatedValue
+        if ((calculatedValue % 2) != 0)
+        {
+            // Optimization: calculatedValue is odd, add 1/-1 to move drawables modulo 32 bits in framebuffer
+            calculatedValue += (calculatedValue > 0 ? 1 : -1);
         }
 
         // calculatedValue is the width/height of the visible area
@@ -171,26 +152,10 @@ public:
         // The WipeTransition only draws to parts of the non-TFT
         // framebuffer. To avoid glitches in Double buffering mode
         // both framebuffers must be made identical.
-        //
-        // In the first tick WipeTransition cover "calculatedValue"
-        // pixels vertically or horizontally depending on the speed of
-        // the transition, so there's no need to transfer that. The
-        // solid Widget covers the rest, so we copy those pixels.
         if (animationCounter == 1 && HAL::USE_DOUBLE_BUFFERING)
         {
-            Rect rect = solid.getRect(); // Part to copy between buffers
-
-            // Get the currently displayed framebuffer
-            uint16_t* tftFb = HAL::getInstance()->getTFTFrameBuffer();
-
-            Rect source;
-            source.x = 0;
-            source.y = 0;
-            source.width = HAL::DISPLAY_WIDTH;
-            source.height = HAL::DISPLAY_HEIGHT;
-
-            // Copy rect from tft to client framebuffer
-            HAL::getInstance()->lcd().blitCopy((const uint16_t*)tftFb, source, rect, 255, false);
+            // Synchronize framebuffers
+            Application::getInstance()->copyInvalidatedAreasFromTFTToClientBuffer();
         }
     }
 

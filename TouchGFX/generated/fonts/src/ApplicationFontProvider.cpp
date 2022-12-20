@@ -19,7 +19,7 @@ touchgfx::Font* ApplicationFontProvider::getFont(touchgfx::FontId typography)
         // verdana_10_4bpp
         return const_cast<touchgfx::Font*>(TypedTextDatabase::getFonts()[2]);
     case Typography::MAINSCREENHOUR:
-        // SairaCondensed_Bold_60_4bpp
+        // SairaCondensed_Bold_40_4bpp
         return const_cast<touchgfx::Font*>(TypedTextDatabase::getFonts()[3]);
     case Typography::MAINSCREENDATE:
         // Saira_Regular_20_4bpp

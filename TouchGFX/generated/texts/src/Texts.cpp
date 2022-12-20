@@ -66,7 +66,7 @@ KEEP extern const touchgfx::Unicode::UnicodeChar texts_all_languages[] TEXT_LOCA
 };
 
 TEXT_LOCATION_FLASH_PRAGMA
-KEEP extern uint32_t const indicesGb[] TEXT_LOCATION_FLASH_ATTRIBUTE;
+KEEP extern const uint32_t indicesGb[] TEXT_LOCATION_FLASH_ATTRIBUTE;
 
 // Array holding dynamically installed languages
 struct TranslationHeader
