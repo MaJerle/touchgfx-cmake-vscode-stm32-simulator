@@ -5,25 +5,35 @@
 
 class ModelListener;
 
-class Model
-{
-public:
+class Model {
+  public:
     Model();
 
-    void bind(ModelListener *listener)
-    {
+    void
+    bind(ModelListener* listener) {
         modelListener = listener;
     }
 
     void tick();
     void setSinusCount(size_t sinus_count);
 
-protected:
-    ModelListener *modelListener;
+    /**
+     * \brief           Get the Current Date Time object
+     * 
+     * \return          const struct tm* 
+     */
+    const struct tm*
+    getCurrentDateTime(void) {
+        return &current_dt;
+    }
 
-private:
-    time_t last_time;
+  protected:
+    ModelListener* modelListener;
+
+  private:
     size_t sinus_count;
+    time_t last_time;
+    struct tm current_dt;
 };
 
 #endif // MODEL_HPP

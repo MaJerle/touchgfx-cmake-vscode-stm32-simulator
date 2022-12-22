@@ -8,10 +8,9 @@ using namespace touchgfx;
 
 class Screen1View;
 
-class Screen1Presenter : public touchgfx::Presenter, public ModelListener
-{
-public:
-    Screen1Presenter(Screen1View &v);
+class Screen1Presenter : public touchgfx::Presenter, public ModelListener {
+  public:
+    Screen1Presenter(Screen1View& v);
 
     /**
      * The activate function is called automatically when this screen is "switched in"
@@ -27,15 +26,20 @@ public:
 
     virtual ~Screen1Presenter(){};
 
-    virtual void notifyNewDateTime(const tm *dt) override;
+    virtual void notifyNewDateTime(const tm* dt) override;
     virtual void notifyNewTemp(float temp) override;
 
     void setSinusCount(int value);
 
-private:
+    const struct tm*
+    getCurrentDateTime(void) {
+        return model->getCurrentDateTime();
+    }
+
+  private:
     Screen1Presenter();
 
-    Screen1View &view;
+    Screen1View& view;
 };
 
 #endif // SCREEN1PRESENTER_HPP
