@@ -1,7 +1,5 @@
 {
     "files.associations": {
-        "cstdint": "cpp",
-        "cmath": "cpp",
-        "type_traits": "cpp"
+        "cmath": "cpp"
     }
 }

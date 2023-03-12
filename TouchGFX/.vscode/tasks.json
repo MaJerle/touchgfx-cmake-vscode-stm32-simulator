@@ -1,8 +1,6 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [
+	"version": "2.0.0",
+	"tasks": [
         {
             "type": "cppbuild",
             "label": "Build project",
@@ -21,7 +19,7 @@
             "type": "shell",
             "label": "Re-build project",
             "command": "cmake",
-            "args": ["--build", "${command:cmake.buildDirectory}", "--clean-first", "-v", "-j", "8"],
+            "args": ["--build", "${command:cmake.buildDirectory}", "--clean-first", "-j", "8"],
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -43,6 +41,6 @@
             "command": "${command:cmake.launchTargetPath}",
             "args": [],
             "problemMatcher": [],
-        },
+        }
     ]
 }
